@@ -36,7 +36,8 @@ db = {
     "endpoint": [
         "read",
         "write",
-        "delete"
+        "delete",
+        "update"
     ]
 }
 bp = Blueprint('app', __name__)
@@ -66,21 +67,21 @@ def list_all():
     return {}
 
 
-@bp.route('/<music_id>', methods=['GET'])
-def get_song(music_id):
+@bp.route('/<pl_id>', methods=['GET'])
+def get_playlist(pl_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    payload = {"objtype": "music", "objkey": music_id}
+    payload = {"objtype": "music", "objkey": pl_id}
 
-    # This version will return 500 for a fraction of its calls
-    if random.randrange(100) < PERCENT_ERROR:
-        return Response(json.dumps({"error": "get_song failed"}),
-                        status=500,
-                        mimetype='application/json')
+    # # This version will return 500 for a fraction of its calls
+    # if random.randrange(100) < PERCENT_ERROR:
+    #     return Response(json.dumps({"error": "get_song failed"}),
+    #                     status=500,
+    #                     mimetype='application/json')
 
     url = db['name'] + '/' + db['endpoint'][0]
     response = requests.get(
@@ -91,29 +92,30 @@ def get_song(music_id):
 
 
 @bp.route('/', methods=['POST'])
-def create_song():
+def create_playlist():
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    try:
-        content = request.get_json()
-        Artist = content['Artist']
-        SongTitle = content['SongTitle']
-    except Exception:
-        return json.dumps({"message": "error reading arguments"})
+    # try:
+    #     content = request.get_json()
+    #     Artist = content['Artist']
+    #     SongTitle = content['SongTitle']
+    # except Exception:
+    #     return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
         url,
-        json={"objtype": "music", "Artist": Artist, "SongTitle": SongTitle},
+        # json={"objtype": "music", "Artist": Artist, "SongTitle": SongTitle},
+        json={"objtype":"music"}
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
 
-@bp.route('/<music_id>', methods=['DELETE'])
-def delete_song(music_id):
+@bp.route('/<pl_id>', methods=['DELETE'])
+def delete_playlist(pl_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -123,10 +125,31 @@ def delete_song(music_id):
     url = db['name'] + '/' + db['endpoint'][2]
     response = requests.delete(
         url,
-        params={"objtype": "music", "objkey": music_id},
+        params={"objtype": "music", "playlist_id": pl_id},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
+@bp.route('/<pl_id>', methods=['PUT'])
+def update_playlist(pl_id, music_id, isDelete):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    url = db['name'] + '/' + db['endpoint'][2]
+    if isDelete:
+        response = requests.delete(
+            url,
+            params={"objtype": "music", "playlist_id": pl_id, "music_id":music_id},
+            headers={'Authorization': headers['Authorization']})
+        return (response.json())
+    else:
+        response = requests.put(
+            url,
+            params={"objtype": "music", "playlist_id": pl_id, "music_id":music_id},
+            headers={'Authorization': headers['Authorization']})
+        return (response.json())
 
 # All database calls will have this prefix.  Prometheus metric
 # calls will not---they will have route '/metrics'.  This is
