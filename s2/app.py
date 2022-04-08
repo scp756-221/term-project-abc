@@ -21,12 +21,7 @@ import requests
 
 import simplejson as json
 
-# Local modules
-#import unique_code
-
-# The unique exercise code
-# The EXER environment variable has a value specific to this exercise
-#ucode = unique_code.exercise_hash(os.getenv('EXER'))
+PERCENT_ERROR = 0
 
 # The application
 
@@ -69,7 +64,7 @@ def list_all():
     # list all songs here
     return {}
 
-error = 0
+#error = 0
 @bp.route('/<music_id>', methods=['GET'])
 def get_song(music_id):
     headers = request.headers
@@ -79,7 +74,7 @@ def get_song(music_id):
                         status=401,
                         mimetype='application/json')
     payload = {"objtype": "music", "objkey": music_id}
-    if random.randrange(100) < error:
+    if random.randrange(100) < PERCENT_ERROR:
         return Response(json.dumps({"error": "get_song failed"}),
                         status=500,
                         mimetype='application/json')
@@ -129,13 +124,13 @@ def delete_song(music_id):
     return (response.json())
 
 
-@bp.route('/test', methods=['GET'])
-def test():
+#@bp.route('/test', methods=['GET'])
+#def test():
     # This value is for user scp756-221
-    if ('3bfc0c49a2959dbb56762b85b53b5ffba0aeeb423b35c0b941b442cb8782977b' !=
-            ucode):
-        raise Exception("Test failed")
-    return {}
+#    if ('3bfc0c49a2959dbb56762b85b53b5ffba0aeeb423b35c0b941b442cb8782977b' !=
+#            ucode):
+#        raise Exception("Test failed")
+#    return {}
 
 
 # All database calls will have this prefix.  Prometheus metric
