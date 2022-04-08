@@ -1,5 +1,3 @@
-docker
-buildall.sh
-compose.yaml
+__pycache__
 create-local-tables.sh
 
