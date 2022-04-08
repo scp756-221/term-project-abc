@@ -22,11 +22,11 @@ import requests
 import simplejson as json
 
 # Local modules
-import unique_code
+#import unique_code
 
 # The unique exercise code
 # The EXER environment variable has a value specific to this exercise
-ucode = unique_code.exercise_hash(os.getenv('EXER'))
+#ucode = unique_code.exercise_hash(os.getenv('EXER'))
 
 # The application
 
