@@ -8,7 +8,7 @@ Python  API for the playlist service.
 import requests
 
 
-class PlayList():
+class playlist():
     """Python API for the playlist service.
 
     Handles the details of formatting HTTP requests and decoding
