@@ -24,7 +24,7 @@ Todo:
 ```
 git clone https://github.com/scp756-221/term-project-abc.git
 cd term-project-abc
-./toos/shell.sh
+./tools/shell.sh
 ```
 
 2. update tpl-vars.txt with your own infos
