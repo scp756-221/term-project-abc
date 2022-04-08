@@ -5,6 +5,6 @@ WORKDIR /code
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY conftest.py create_tables.py music.py user.py playlist.py test_services.py ci_test.py ./
+COPY create_tables.py music.py user.py playlist.py test_services.py ci_test.py ./
 
 CMD ["python", "ci_test.py", "s1", "30000", "s2", "30001", "s3", "30003", "scp756-221"]
