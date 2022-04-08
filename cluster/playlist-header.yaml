@@ -1,0 +1,7 @@
+# Header for ConfigMap built from playlist.csv, same as music-header.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: playlist
+data:
+  music.csv: |
