@@ -32,6 +32,11 @@ cd term-project-abc
 ./tools/shell.sh
 ```
 
+if not aws in the local, download aws cli and config aws access id and secret token before make (optional)
+```
+aws configure
+``` 
+
 2. Update tpl-vars.txt with your own infos  
 
 **this step is important, you need to create aws access keys and github signon tokens accordingly**
@@ -41,10 +46,6 @@ echo $github token > cluster/ghcr.io-token.txt
 make -f k8s-tpl.mak templates
 make -f allclouds.mak
 ```
-(optional)if not aws in the local, download aws cli and config aws access id and secret token before make 
-```
-aws configure
-``` 
 
 3. Try out these instructions in assignment 4
 ```
