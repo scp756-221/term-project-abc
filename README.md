@@ -34,7 +34,7 @@ git config --global core.autocrlf false
 2. update tpl-vars.txt with your own infos
 ```
 cp cluster/tpl-vars-blank.txt cluster/tpl-vars.txt 
-echo $your_github_token > cluster/ghcr.io-token.txt
+echo $github token > cluster/ghcr.io-token.txt
 make -f k8s-tpl.mak templates
 make -f allclouds.mak
 ```
