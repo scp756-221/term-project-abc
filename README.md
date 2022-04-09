@@ -20,18 +20,22 @@ Todo:
 
 ## Step to run our project 
 
-1. Get the repo into local 
+1. Get the repo into local
 ```
 git clone https://github.com/scp756-221/term-project-abc.git
 cd term-project-abc
 ./tools/shell.sh
 ```
+(optional)for running under wsl2, run this command before clone 
+```
+git config --global core.autocrlf false
+``` 
 
 2. update tpl-vars.txt with your own infos
 **this step is important, you need to create aws access keys and github signon tokens accordingly**
 ```
 cp cluster/tpl-vars-blank.txt cluster/tpl-vars.txt 
-echo $your_github_token > cluster/ghcr.io-token.txt
+echo $github token > cluster/ghcr.io-token.txt
 make -f k8s-tpl.mak templates
 make -f allclouds.mak
 ```
