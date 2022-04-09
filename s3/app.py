@@ -164,11 +164,11 @@ def write_song_to_playlist():
                         mimetype='application/json')
     try:
         content = request.get_json()
-        pl_name = content['pl_name']
+        pl_name = content['PlayListName']
         Songs = content['Songs']
     except Exception:
         return json.dumps({"message": "error reading write_song_to_playlist arguments"})
-    payload = {"objtype": "playlist", "pl_name": pl_name, "Songs": Songs} # for now only include music_id
+    payload = {"objtype": "playlist", "PlayListName": pl_name, "Songs": Songs} # for now only include music_id
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
         url,
