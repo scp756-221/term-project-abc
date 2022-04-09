@@ -28,6 +28,7 @@ cd term-project-abc
 ```
 
 2. update tpl-vars.txt with your own infos
+**this step is important, you need to create aws access keys and github signon tokens accordingly**
 ```
 cp cluster/tpl-vars-blank.txt cluster/tpl-vars.txt 
 echo $your_github_token > cluster/ghcr.io-token.txt
@@ -55,4 +56,6 @@ make -f k8s.mak gw db s1 s2 s3
 
 5. start k9s to check if the services are deployment successfully k9s
 
+
+## Monitoring
 
