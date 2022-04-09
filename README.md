@@ -16,7 +16,6 @@ Todo:
 
 1. Grafana testing. 
 2. Galting to do performance testing 
-3. Potentially a recommendation system to suggest music to users 
 
 ## Step to run our project 
 
@@ -59,7 +58,7 @@ kubectl label namespace c756ns istio-injection=enabled
 kubectl get svc --all-namespaces | cut -c -140
 ```
 
-4. Build & push the images up to the CR. Check if there's the image of s3 in your Github package after calling this command and change the visibility to public
+4. Build & push the docker images. Go to github package page https://github.com/USERNAME?tab=packages, change the visibility of s3 to public if first time runningthe visibility to public
 ```
 make -f k8s.mak cri
 make -f k8s.mak gw db s1 s2 s3
