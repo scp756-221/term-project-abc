@@ -64,6 +64,7 @@ object RPlaylist {
     .pause(1)
   }
 }
+
 /*
   After one S1 read, pause a random time between 1 and 60 s
 */
@@ -93,6 +94,10 @@ object RMusicVarying {
   }
 }
 
+/*
+  After one S3 read, pause a random time between 1 and 60 s
+*/
+
 object RPlaylistVarying {
   val feeder = csv("playlist.csv").eager.circular
 
@@ -103,6 +108,7 @@ object RPlaylistVarying {
     .pause(1, 60)
   }
 }
+
 /*
   Failed attempt to interleave reads from User and Music tables.
   The Gatling EDSL only honours the second (Music) read,
@@ -162,6 +168,7 @@ class ReadPlaylistSim extends ReadTablesSim {
     scnReadPlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
 }
+
 /*
   Read both services concurrently at varying rates.
   Ramp up new users one / 10 s until requested USERS
