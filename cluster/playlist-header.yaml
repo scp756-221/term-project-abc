@@ -4,4 +4,4 @@ kind: ConfigMap
 metadata:
   name: playlist
 data:
-  music.csv: |
+  playlist.csv: |

@@ -112,6 +112,7 @@ object RBoth {
 
   val u_feeder = csv("users.csv").eager.circular
   val m_feeder = csv("music.csv").eager.random
+  val p_feeder = csv("playlist.csv").eager.random
 
   val rboth = forever("i") {
     feed(u_feeder)
@@ -122,7 +123,11 @@ object RBoth {
     feed(m_feeder)
     .exec(http("RMusic ${i}")
       .get("/api/v1/music/${UUID}"))
-      .pause(1)
+      .pause(1);
+    feed(p_feeder)
+    .exec(http("RPlaylist ${i}")
+      .get("/api/v1/playlist/${UUID}"))
+    .pause(1);
   }
 
 }
