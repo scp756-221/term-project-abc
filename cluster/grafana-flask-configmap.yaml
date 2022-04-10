@@ -738,7 +738,15 @@ data:
               "interval": "",
               "legendFormat": "cmpt756s2",
               "refId": "B"
+            },
+
+            {
+              "expr": "histogram_quantile(0.5, sum by (le) (rate(flask_http_request_duration_seconds_bucket{service=\"cmpt756s3\",status=\"200\"}[1m])))",
+              "interval": "",
+              "legendFormat": "cmpt756s3",
+              "refId": "D"
             }
+
           ],
           "thresholds": [],
           "timeFrom": null,
@@ -1060,6 +1068,13 @@ data:
               "interval": "",
               "legendFormat": "cmpt756s2",
               "refId": "C"
+            },
+            
+            {
+              "expr": "histogram_quantile(0.9, sum by (le) (rate(flask_http_request_duration_seconds_bucket{service=\"cmpt756s3\",status=\"200\"}[1m])))",
+              "interval": "",
+              "legendFormat": "cmpt756s3",
+              "refId": "D"
             }
           ],
           "thresholds": [],
