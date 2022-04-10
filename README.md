@@ -97,7 +97,7 @@ check gatling runing status
 ```
 docker container list
 ```
-## finushed up
+## Finish up
 ### end the gatling load
 ```
 ./tools/kill-gatling.sh
