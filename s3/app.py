@@ -1,6 +1,6 @@
 """
 SFU CMPT 756
-Sample application---playlist service.
+s3 service  ---  playlist service.
 """
 
 # Standard library modules
@@ -22,7 +22,6 @@ import requests
 import simplejson as json
 
 # The application
-
 # Integer value 0 <= v < 100, denoting proportion of
 # calls to `get_song` to return 500 from
 # PERCENT_ERROR = 50
@@ -209,7 +208,7 @@ app.register_blueprint(bp, url_prefix='/api/v1/playlist/')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        logging.error("argument 1 missing")
+        logging.error("please provide an argument")
         sys.exit(-1)
 
     p = int(sys.argv[1])
