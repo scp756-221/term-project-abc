@@ -7,15 +7,6 @@ Our primary goal is to implement a playlist microservice in addition to S1 (user
 
 ![mircroservice achitecture](https://user-images.githubusercontent.com/39822436/162517769-de65a5f9-69a9-4877-9df6-c12a9323fa6a.png)
 
-Done: 
-
-1. Finish the implementation of the S3 (playlist) microservice.
-2. Build and deploy all microservices on Kubernetes clusters. 
-
-Todo: 
-
-1. Grafana testing. 
-2. Galting to do performance testing 
 
 ## Step to run our project 
 
@@ -46,13 +37,12 @@ make -f k8s-tpl.mak templates
 make -f allclouds.mak
 ```
 
-3. Try out these instructions in assignment 4
+3. cluster setup instructions (quote from assignment 4)
 ```
 make -f eks.mak start
 kubectl config use-context aws756
 kubectl create ns c756ns
 kubectl config set-context aws756 --namespace=c756ns
-kubectl config use-context aws756
 istioctl install -y --set profile=demo --set hub=gcr.io/istio-release
 kubectl label namespace c756ns istio-injection=enabled
 kubectl get svc --all-namespaces | cut -c -140
@@ -92,6 +82,12 @@ Then, login with
 ```
 admin
 prom-operator
+```
+### Gatling load test
+test the service with gatling shell, command needs to run in native environment(not in shell.sh)
+gatling - servicename.sh usernumber, for example:
+```
+./gatling-all.sh 500
 ```
 
 ## Directory structure
