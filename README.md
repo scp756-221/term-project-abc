@@ -83,13 +83,29 @@ Then, login with
 admin
 prom-operator
 ```
+### load dynamoDB
+```
+make -f k8s.mak loader
+```
 ### Gatling load test
 test the service with gatling shell, command needs to run in native environment(not in shell.sh)
 gatling - servicename.sh usernumber, for example:
 ```
 ./gatling-all.sh 500
 ```
-
+check gatling runing status
+```
+docker container list
+```
+## finushed up
+### end the gatling load
+```
+./tools/kill-gatling.sh
+```
+### close cluster
+```
+make -f eks.mak stop
+```
 ## Directory structure
 
 The core of the microservices. `s2/v1.1`, `s2/v2`, and `s2/standalone`  are for use with Assignments. For the term project, the directory works as below
