@@ -25,12 +25,10 @@ NS=c756ns
 CLUSTER_NAME=aws756
 EKS_CTX=aws756
 
-
 NGROUP=worker-nodes
 NTYPE=t3.medium
-REGION=ZZ-AWS-REGION
+REGION=us-west-2
 KVER=1.21
-
 
 start: showcontext
 	$(EKS) create cluster --name $(CLUSTER_NAME) --version $(KVER) --region $(REGION) --nodegroup-name $(NGROUP) --node-type $(NTYPE) --nodes 2 --nodes-min 2 --nodes-max 2 --managed | tee $(LOG_DIR)/eks-start.log
