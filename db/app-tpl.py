@@ -100,11 +100,11 @@ def read():
     table_name = objtype.capitalize()+"-ZZ-REG-ID"
     table_id = objtype + "_id"
     table = dynamodb.Table(table_name)
-    if objkey:
+
+
         response = table.query(Select='ALL_ATTRIBUTES',
                                KeyConditionExpression=Key(table_id).eq(objkey))
-    else:
-        response = table.scan()
+
     return response
 
 
