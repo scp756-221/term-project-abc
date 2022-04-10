@@ -38,7 +38,7 @@ db = {
         "read",
         "write",
         "delete",
-        "update",
+        "update"
     ]
 }
 bp = Blueprint('app', __name__)
@@ -47,7 +47,7 @@ bp = Blueprint('app', __name__)
 @bp.route('/health')
 @metrics.do_not_track()
 def health():
-    return Response("hello world", status=200, mimetype="application/json")
+    return Response("", status=200, mimetype="application/json")
 
 
 @bp.route('/readiness')
@@ -74,8 +74,8 @@ def list_all(pl_id):
     return (response.json())
 
 
-@bp.route('/create_playlist/<plst_id>', methods=['PUT'])
-def create_playlist(pl_id):
+@bp.route('/write_song_to_playlist/<pl_id>', methods=['PUT'])
+def write_song_to_playlist(pl_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -95,7 +95,9 @@ def create_playlist(pl_id):
     except Exception:
         return json.dumps({"message": f"error add songs: {Songs}"})
     
-    if Songs in playlist:
+    if Songs not in playlist:
+        pass
+    else:
         return json.dumps({"error": f"song {Songs} is in the" + f"playlist {pl_id}"})
     playlist.append(Songs)
     url = db['name'] + '/' + db['endpoint'][3]
@@ -121,13 +123,14 @@ def delete_playlist(pl_id):
     except Exception:
         return json.dumps({"message": "error reading delete_playlist arguments"})
     playlist = list_all(pl_id)['Items'][0]['Songs']
-    if music_id not in playlist:
-        return json.dumps({"error": f"music_id {music_id} is not in the playlist"})
-    else:
+    if music_id in playlist:
         try:
             playlist.remove(music_id)
         except Exception:
             return json.dumps({"message": f"error delete the music id {music_id}"})
+    else:
+        return json.dumps({"error": f"music_id {music_id} is not in the playlist"})
+    
     url = db['name'] + '/' + db['endpoint'][3]
     response = requests.put(
         url,
@@ -155,7 +158,7 @@ def get_songs_from_playlist(pl_id):
 '''
 
 @bp.route('/', methods=['POST'])
-def write_song_to_playlist():
+def create_playlist():
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -167,7 +170,7 @@ def write_song_to_playlist():
         pl_name = content['PlayListName']
         Songs = content['Songs']
     except Exception:
-        return json.dumps({"message": "error reading write_song_to_playlist arguments"})
+        return json.dumps({"message": "error reading create_playlist arguments"})
     payload = {"objtype": "playlist", "PlayListName": pl_name, "Songs": Songs} # for now only include music_id
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
@@ -185,13 +188,13 @@ def delete_song_from_playlist(pl_id):
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    '''
+    
     try:
         content = request.get_json()
         music_id = content['music_id']
     except Exception:
         return json.dumps({"message": "error reading delete_song_from_playlist arguments"})
-    '''
+    
     url = db['name'] + '/' + db['endpoint'][2]
     response = requests.delete(
         url,
