@@ -138,3 +138,26 @@ Other directories:
 - `s2`: for the music service
 - `s3`: for the playlist service
 - `tools`: bash/python scripts which quickly start docker or aws services
+
+
+## Troubleshooting
+
+(1) If you see the error below when you try to get URL from Grafana or Prometheus:
+```
+Error from server (NotFound): namespaces "istio-system" not found
+http://:9090/
+```
+You have to install **istio**
+```
+istioctl install -y --set profile=demo --set hub=gcr.io/istio-release
+```
+
+(2) If you see such errors
+```
+Error from server (NotFound): services "prom-ingress" not found
+Error from server (NotFound): services "grafana-ingress" not found
+```
+Please provision your system first
+```
+make -f k8s.mak provision
+```
