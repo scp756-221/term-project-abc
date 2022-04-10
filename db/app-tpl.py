@@ -102,8 +102,7 @@ def read():
     table = dynamodb.Table(table_name)
 
 
-        response = table.query(Select='ALL_ATTRIBUTES',
-                               KeyConditionExpression=Key(table_id).eq(objkey))
+    response = table.query(Select='ALL_ATTRIBUTES',KeyConditionExpression=Key(table_id).eq(objkey))
 
     return response
 
