@@ -123,11 +123,7 @@ object RBoth {
     feed(m_feeder)
     .exec(http("RMusic ${i}")
       .get("/api/v1/music/${UUID}"))
-      .pause(1);
-    feed(p_feeder)
-    .exec(http("RPlaylist ${i}")
-      .get("/api/v1/playlist/${UUID}"))
-    .pause(1);
+      .pause(1)
   }
 
 }
@@ -184,25 +180,11 @@ class ReadBothVaryingSim extends ReadTablesSim {
   setUp(
     // Add one user per 10 s up to specified value
     scnReadMV.inject(rampConcurrentUsers(1).to(users).during(10*users)),
-    scnReadUV.inject(rampConcurrentUsers(1).to(users).during(10*users))
+    scnReadUV.inject(rampConcurrentUsers(1).to(users).during(10*users)),
   ).protocols(httpProtocol)
 }
 
-/*
-  This doesn't work---it just reads the Music table.
-  We left it in here as possible inspiration for other work
-  (or a warning that this approach will fail).
- */
-/*
-class ReadBothSim extends ReadTablesSim {
-  val scnReadBoth = scenario("ReadBoth")
-    .exec(RBoth.rboth)
 
-  setUp(
-    scnReadBoth.inject(atOnceUsers(1))
-  ).protocols(httpProtocol)
-}
-*/
 
 class ReadAllSim extends ReadTablesSim {
   val scnReadMusic = scenario("ReadMusic")
@@ -220,7 +202,7 @@ class ReadAllSim extends ReadTablesSim {
     scnReadUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1))),
     scnReadMusic.inject(atOnceUsers(Utility.envVarToInt("USERS", 1))),
     scnReadPlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
-  ).protocols(httpProtocol)
+  )
 }
 
 class ReadAllVaryingSim extends ReadTablesSim {
