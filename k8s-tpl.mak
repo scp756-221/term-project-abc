@@ -65,8 +65,8 @@ templates:
 # 2. Current context is a running Kubernetes cluster (make -f {az,eks,gcp,mk}.mak start)
 #
 #  Nov 2021: Kiali is causing problems so do not deploy
-provision: istio prom kiali deploy
-#provision: istio prom deploy
+#provision: istio prom kiali deploy
+provision: istio prom deploy
 
 # --- deploy: Deploy and monitor the three microservices
 # Use `provision` to deploy the entire stack (including Istio, Prometheus, ...).
@@ -104,7 +104,6 @@ rollout-db: db
 health-off:
 	$(KC) -n $(APP_NS) apply -f cluster/s1-nohealth.yaml
 	$(KC) -n $(APP_NS) apply -f cluster/s2-nohealth.yaml
-	$(KC) -n $(APP_NS) apply -f cluster/s3-nohealth.yaml
 	$(KC) -n $(APP_NS) apply -f cluster/db-nohealth.yaml
 
 # --- scratch: Delete the microservices and everything else in application NS
