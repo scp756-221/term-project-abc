@@ -10,92 +10,124 @@ Our primary goal is to implement a playlist microservice in addition to S1 (user
 
 ## Step to run our project 
 
-   if you are running under wsl2, run this command before clone (optional) 
+### prerequest
+if you are running under wsl2, run this command before clone (optional) 
+
 ```
 git config --global core.autocrlf false
 ``` 
 
 if not aws in the local, download aws cli and config aws access id and secret token before make (optional)
+
 ```
 aws configure
 ``` 
 
-1. Get the repo into local
+Get the repo into local.  Update tpl-vars.txt with your own infos and ghio key.
+
 ```
 git clone https://github.com/scp756-221/term-project-abc.git
 cd term-project-abc
-./tools/shell.sh
-```
-
-
-
-2. Update tpl-vars.txt with your own infos  
-
-**this step is important, you need to create aws access keys and github signon tokens accordingly**
-```
 cp cluster/tpl-vars-blank.txt cluster/tpl-vars.txt 
 echo $github token > cluster/ghcr.io-token.txt
-make -f k8s-tpl.mak templates
+
 ```
 
-3. cluster setup instructions (quote from assignment 4)
-create a cluster
+### deployment
+#### use docker k8s with tool and make template
+
+```
+./tools/shell.sh
+make -f k8s-tpl.mak templates
+```
+#### Ensure AWS DynamoDB is accessible/running
+```
+make -f k8s.mak ls-tables
+```
+
+The resulting output should include tables User, Music and Playlist. If not, init a new tables.
+```
+make -f k8s.mak dynamodb-clean
+make -f k8s.mak dynamodb-init
+```
+
+#### cluster setup
+
+##### create a cluster
+
 ```
 make -f eks.mak start
 ```
-view cluster
+
+##### view cluster
+
 ```
 kubectl config use-context aws756
 ```
-create namespace and switch to it
+
+##### create namespace and switch to it
+
 ```
 kubectl create ns c756ns
 kubectl config set-context aws756 --namespace=c756ns
 ```
-Provisioning the system
-```
-make -f k8s.mak provision
+
+##### Installing the service mesh istio,and inspect in cluster
 ```
 istioctl install -y --set profile=demo --set hub=gcr.io/istio-release
 kubectl label namespace c756ns istio-injection=enabled
-kubectl get svc --all-namespaces | cut -c -140
 ```
 
-4. Build & push the docker images. Go to github package page https://github.com/USERNAME?tab=packages, change the visibility of s3 to public if first time runningthe visibility to public
+##### build image, make sure they are in public
 ```
 make -f k8s.mak cri
+```
+##### deploy service
+```
 make -f k8s.mak gw db s1 s2 s3
 ```
+
+##### check service(optional)
+```
+k9s -n c756ns
+```
+
+
+
+#####  get the external ip address
+```
+kubectl -n istio-system get service istio-ingressgateway | cut -c -140
+```
+
+##### Provisioning the system
+
+```
+make -f k8s.mak provision
+```
+
+##### load initial data in dynamoDB
+
+```
+make -f k8s.mak loader
+```
+
+
+
 
 
 ## Monitoring
 
 
-### 
-
-if you do not have a cluster running, please do:
-```
-make -f eks.mak start
-```
-otherwise, directly run: 
-```
-
-
-
-## load initial data in dynamoDB
-```
-make -f k8s.mak loader
-```
-
-```
-
 ### Gatling load test
 test the service with gatling shell, command needs to run in native environment(not in shell.sh)
 gatling - servicename.sh usernumber, for example:
+
 ```
 ./gatling-all.sh 500
 ```
+
 check gatling runing status
+
 ```
 docker container list
 ```
@@ -104,17 +136,28 @@ docker container list
 Grafana is a tool that uses for creating and running dashboards. You could see some significant statistics for your current system with Grafana dashboard.
 
 First of all, to get access URL, do: 
+
 ```
 make -f k8s.mak grafana-url
 
 ```
 Then, login with 
+
 ```
 admin
 prom-operator
 ```
+
+### Prometheus
+To print the Prometheus URL, run:
+
+```
+make -f k8s.mak prometheus-url
+```
+
 ### Kiali
 To get the kiali URL, run:
+
 ```
 make -f k8s.mak kiali
 make -f k8s.mak kiali-url
@@ -130,6 +173,7 @@ make -f k8s.mak kiali-url
 ```
 make -f eks.mak stop
 ```
+
 ## Directory structure
 
 The core of the microservices. `s2/v1.1`, `s2/v2`, and `s2/standalone`  are for use with Assignments. For the term project, the directory works as below
