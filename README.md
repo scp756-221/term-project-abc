@@ -89,13 +89,19 @@ Grafana is a tool that uses for creating and running dashboards. You could see s
 
 First of all, to get access URL, do: 
 ```
-$ make -f k8s.mak grafana-url
-http://a3a64fbacc7114a028faa18b4a710f87-1707422240.us-west-2.elb.amazonaws.com:3000/
+make -f k8s.mak grafana-url
+
 ```
 Then, login with 
 ```
 admin
 prom-operator
+```
+### Kiali
+To get the kiali URL, run:
+```
+make -f k8s.mak kiali
+make -f k8s.mak kiali-url
 ```
 ### load dynamoDB
 ```
