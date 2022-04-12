@@ -103,10 +103,7 @@ To get the kiali URL, run:
 make -f k8s.mak kiali
 make -f k8s.mak kiali-url
 ```
-### load dynamoDB
-```
-make -f k8s.mak loader
-```
+
 
 ## Finish up
 ### end the gatling load
