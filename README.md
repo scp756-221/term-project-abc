@@ -15,6 +15,11 @@ Our primary goal is to implement a playlist microservice in addition to S1 (user
 git config --global core.autocrlf false
 ``` 
 
+if not aws in the local, download aws cli and config aws access id and secret token before make (optional)
+```
+aws configure
+``` 
+
 1. Get the repo into local
 ```
 git clone https://github.com/scp756-221/term-project-abc.git
@@ -22,10 +27,7 @@ cd term-project-abc
 ./tools/shell.sh
 ```
 
-if not aws in the local, download aws cli and config aws access id and secret token before make (optional)
-```
-aws configure
-``` 
+
 
 2. Update tpl-vars.txt with your own infos  
 
@@ -34,15 +36,26 @@ aws configure
 cp cluster/tpl-vars-blank.txt cluster/tpl-vars.txt 
 echo $github token > cluster/ghcr.io-token.txt
 make -f k8s-tpl.mak templates
-make -f allclouds.mak
 ```
 
 3. cluster setup instructions (quote from assignment 4)
+create a cluster
 ```
 make -f eks.mak start
+```
+view cluster
+```
 kubectl config use-context aws756
+```
+create namespace and switch to it
+```
 kubectl create ns c756ns
 kubectl config set-context aws756 --namespace=c756ns
+```
+Provisioning the system
+```
+make -f k8s.mak provision
+```
 istioctl install -y --set profile=demo --set hub=gcr.io/istio-release
 kubectl label namespace c756ns istio-injection=enabled
 kubectl get svc --all-namespaces | cut -c -140
@@ -54,16 +67,11 @@ make -f k8s.mak cri
 make -f k8s.mak gw db s1 s2 s3
 ```
 
-5. Start k9s to check if the services are deployment successfully k9s
-## load initial data in dynamoDB
-```
-make -f k8s.mak loader
-```
 
 ## Monitoring
 
 
-### Provisioning the system
+### 
 
 if you do not have a cluster running, please do:
 ```
@@ -71,7 +79,14 @@ make -f eks.mak start
 ```
 otherwise, directly run: 
 ```
-make -f k8s.mak provision
+
+
+
+## load initial data in dynamoDB
+```
+make -f k8s.mak loader
+```
+
 ```
 
 ### Gatling load test
