@@ -55,9 +55,12 @@ make -f k8s.mak gw db s1 s2 s3
 ```
 
 5. Start k9s to check if the services are deployment successfully k9s
+## load initial data in dynamoDB
+make -f k8s.mak loader
 
 
 ## Monitoring
+
 
 ### Provisioning the system
 
@@ -68,6 +71,17 @@ make -f eks.mak start
 otherwise, directly run: 
 ```
 make -f k8s.mak provision
+```
+
+### Gatling load test
+test the service with gatling shell, command needs to run in native environment(not in shell.sh)
+gatling - servicename.sh usernumber, for example:
+```
+./gatling-all.sh 500
+```
+check gatling runing status
+```
+docker container list
 ```
 
 ### Grafana
@@ -87,16 +101,7 @@ prom-operator
 ```
 make -f k8s.mak loader
 ```
-### Gatling load test
-test the service with gatling shell, command needs to run in native environment(not in shell.sh)
-gatling - servicename.sh usernumber, for example:
-```
-./gatling-all.sh 500
-```
-check gatling runing status
-```
-docker container list
-```
+
 ## Finish up
 ### end the gatling load
 ```
