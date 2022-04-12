@@ -163,6 +163,16 @@ make -f k8s.mak kiali
 make -f k8s.mak kiali-url
 ```
 
+####Set Kiali graph
+
+Namespaces: c756ns
+Graph type: Versioned app graph
+Display interval: Last 1m
+Refresh interval: Every 30s
+Display:
+Show Edge Labels: Traffic Rate
+Show: Compressed Hide, Operation Nodes, Service Nodes, Traffic Animation
+Show Badges: Virtual Services
 
 ## Finish up
 ### end the gatling load

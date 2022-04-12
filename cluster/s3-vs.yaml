@@ -22,5 +22,4 @@ spec:
         host: cmpt756s3
         port:
           number: 30003
-        subset: v1
       
