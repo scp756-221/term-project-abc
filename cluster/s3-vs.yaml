@@ -17,7 +17,10 @@ spec:
     rewrite:
       uri: /api/v1/playlist
     route:
-    - destination:
+    - weight: 100
+      destination:
         host: cmpt756s3
         port:
           number: 30003
+        subset: v1
+      

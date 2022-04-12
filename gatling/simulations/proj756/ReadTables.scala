@@ -220,7 +220,7 @@ class ReadAllSim extends ReadTablesSim {
     scnReadUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1))),
     scnReadMusic.inject(atOnceUsers(Utility.envVarToInt("USERS", 1))),
     scnReadPlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
-  ).throttle(reachRps(1000000) in (1 minute), holdFor(5 minutes)).protocols(httpProtocol)
+  ).protocols(httpProtocol)
 }
 
 class ReadAllVaryingSim extends ReadTablesSim {
