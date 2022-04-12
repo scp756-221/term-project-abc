@@ -56,8 +56,9 @@ make -f k8s.mak gw db s1 s2 s3
 
 5. Start k9s to check if the services are deployment successfully k9s
 ## load initial data in dynamoDB
+```
 make -f k8s.mak loader
-
+```
 
 ## Monitoring
 
